@@ -20,7 +20,7 @@ body {
 h1 {
     font-size: 33px;
     font-weight: 600;
-    padding: 200px 0;
+    padding: 0 0;
 }
 
 /*.side-bar {
@@ -63,7 +63,8 @@ h1 {
 
 #prompt {
     border: none;
-    background-color: rgba(255, 255, 255, 0.5);
+    /*background-color: rgba(255, 255, 255, 0.5);*/
+    background-color: #3e3f4b;
     width: 100%;
     font-size: 20px;
     padding: 12px 15px;
@@ -90,7 +91,7 @@ h1 {
     border-radius: 5px;
     padding-right: 10px;
     position:absolute;
-    right: 20;
+    right: 0;
     bottom: 15px;
     cursor:pointer;
 }
@@ -208,6 +209,11 @@ select, option {
     height: 44px!important;
 }
 
+.text-ss {
+    font-size: .775rem;
+    line-height: 1rem;
+}
+
 .text-sm {
     font-size: .875rem;
     line-height: 1.25rem;
@@ -249,6 +255,30 @@ button, #settings, #authors {
 
 .sidebar-hidden {
     transform: translateX(-100%);
+}
+
+/* Home */
+#home #header {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    font-weight: 600;
+}
+
+#homeInner {
+    margin-top: 25%;
+    margin-bottom: 25%;
+}
+
+.example {
+    padding: 10px;
+    margin: 8px;
+    border-radius: 5px;
+    background-color: #3e3f4b;
+}
+
+.example:hover {
+    background-color: #202123;
+    cursor: pointer;
 }
 
 /* Loader */

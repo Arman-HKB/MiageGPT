@@ -1,11 +1,13 @@
 // Requests to davinci costs 10% of the price of GPT-3.5 per token !!!!
 const endpointURL = 'https://api.openai.com/v1/chat/completions';
 
-let keyInput, api_key, loader, outputElement, submitButton, inputElement, historyElement, butonElement, styleSelect, backgroundSelect;
+let home, keyInput, api_key, loader, outputElement, submitButton, inputElement, historyElement, butonElement, styleSelect, backgroundSelect;
 
 window.onload = init;
 
 function init() {
+    home = document.querySelector('#home');
+
     keyInput = document.querySelector('#key');
     loader = document.querySelector('#loader');
     
@@ -36,6 +38,7 @@ function clearInput() {
 function beforeGetMessage() {
     api_key = keyInput.value;
     if(api_key != "") {
+        home.classList.add('hide');
         loader.classList.remove('hide');
         getMessage();
     } else {
