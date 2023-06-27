@@ -27,6 +27,11 @@ function init() {
         if (event.key === "Enter") {
             beforeGetMessage();
         }
+        if (inputElement.value != "") {
+            submitButton.classList.add('green');
+        } else {
+            submitButton.classList.remove('green');
+        }
     });
 }
 
