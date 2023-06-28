@@ -6,7 +6,7 @@ let home, keyAlert, keyInput, api_key, max_tokens, loader, outputElement, submit
 window.onload = init;
 
 function init() {
-    home = document.querySelector('#home');
+    home = document.querySelector('#homeContainer');
     keyAlert = document.querySelector('#key-alert');
 
     keyInput = document.querySelector('#key');
@@ -54,6 +54,9 @@ function beforeGetMessage() {
     api_key = keyInput.value;
     if(api_key != "") {
         home.classList.add('hide');
+
+        outputElement.innerHTML += '<div class="user px-0 py-5"><div class="row w-50"><div class="col-1"><img src="./img/user.svg" alt="user" class="user-img"></div><div class="col-11">'+inputElement.value+'</div></div></div>';
+
         loader.classList.remove('hide');
         getMessage();
     }
@@ -101,7 +104,7 @@ async function getMessage() {
                     role: "user",
                     content: request
                 }],
-                max_tokens: max_tokens.value
+                max_tokens: parseInt(max_tokens.value)
             })
         };
         try {
@@ -110,6 +113,7 @@ async function getMessage() {
             const chatGptReponseTxt = data.choices[0].message.content;
             prompt = chatGptReponseTxt;
             console.log("Prompt pour Dall-E : " + chatGptReponseTxt);
+            outputElement.innerHTML += '<div class="gpt px-0 py-5"><div class="row w-50"><div class="col-1"><img src="./img/gpt.svg" alt="user" class="user-img"></div><div class="col-11">Prompt pour Dall-E : '+chatGptReponseTxt+'</div></div></div>';
         } catch (error) {
             console.log(error);
             throw error;
@@ -174,7 +178,7 @@ async function getResponseFromGPT(prompt) {
                 role: "user",
                 content: prompt
             }],
-            max_tokens: max_tokens.value
+            max_tokens: parseInt(max_tokens.value)
         })
     };
     try {
@@ -182,10 +186,11 @@ async function getResponseFromGPT(prompt) {
         const data = await response.json();
         console.log(data);
         const chatGptReponseTxt = data.choices[0].message.content;
-        const pElementChat = document.createElement('p');
+        /*const pElementChat = document.createElement('p');
         pElementChat.classList.add('reponse');
         pElementChat.textContent = chatGptReponseTxt;
-        outputElement.append(pElementChat);
+        outputElement.append(pElementChat);*/
+        outputElement.innerHTML += '<div class="gpt px-0 py-5"><div class="row w-50"><div class="col-1"><img src="./img/gpt.svg" alt="user" class="user-img"></div><div class="col-11">'+chatGptReponseTxt+'</div></div></div>';
 
         const pageHeight = Math.max(
             document.body.scrollHeight,

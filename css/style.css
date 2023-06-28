@@ -173,7 +173,9 @@ input[type="radio"] {
 }
 
 #output {
+    width: 100%;
     padding-bottom: 200px;
+    text-align: left;
 }
 
 .reponse {
@@ -256,10 +258,6 @@ button, #authors {
     border-top: 1px solid #555659;
 }
 
-/*#settings:hover {
-    cursor: pointer;
-}*/
-
 #authors:hover {
     cursor: default;
 }
@@ -279,6 +277,11 @@ button, #authors {
 }
 
 /* Home */
+#home {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 #home #header {
     font-size: 2.25rem;
     line-height: 2.5rem;
@@ -291,7 +294,6 @@ button, #authors {
 
 #homeInner {
     margin-top: 25%;
-    margin-bottom: 25%;
 }
 
 .example {
@@ -317,6 +319,22 @@ button, #authors {
 
 #key-alert i {
     color: #2c0b0e;
+}
+
+/* Output */
+.user-img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+}
+
+.gpt {
+    background-color: #444654;
+}
+
+.user .row, .gpt .row {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Modal */

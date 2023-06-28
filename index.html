@@ -35,59 +35,61 @@
     <button type="button" id="toggleSideBarHide" class="btn btn-dark hide text-sm"><i class="bi bi-layout-sidebar"></i></button>
 
     <!-- Main -->
-    <div class="container main">
-        <div id="home" class="w-50 h-100">
-            <div id="homeInner">
-                <p id="header" class="my-5">MiageGPT</p>
-                <div class="row">
-                    <div class="col-4 d-flex flex-column align-items-center" id="exampleColumn">
-                        <i class="bi bi-lightbulb"></i>
-                        <h6>Exemples</h6>
-                        <div class="example text-ss">
-                            "Quand l'homme a-t-il marché sur la lune ?" <i class="bi bi-arrow-right"></i>
+    <div class="container-fluid p-0 main">
+        <div id="homeContainer" class="container">
+            <div id="home" class="w-50 h-100">
+                <div id="homeInner">
+                    <p id="header" class="my-5">MiageGPT</p>
+                    <div class="row">
+                        <div class="col-4 d-flex flex-column align-items-center" id="exampleColumn">
+                            <i class="bi bi-lightbulb"></i>
+                            <h6>Exemples</h6>
+                            <div class="example text-ss">
+                                "Quand l'homme a-t-il marché sur la lune ?" <i class="bi bi-arrow-right"></i>
+                            </div>
+                            <div class="example text-ss">
+                                "<b>/image</b> Un robot affrontant un Kaijū sous l'eau" <i class="bi bi-arrow-right"></i>
+                            </div>
+                            <div class="example text-ss">
+                                "<b>/song</b> Cowboys from Hell, Pantera" <i class="bi bi-arrow-right"></i>
+                            </div>
                         </div>
-                        <div class="example text-ss">
-                            "<b>/image</b> Un robot affrontant un Kaijū sous l'eau" <i class="bi bi-arrow-right"></i>
+                        <div class="col-4 d-flex flex-column align-items-center">
+                            <i class="bi bi-lightning-charge"></i>
+                            <h6>Fonctionnalités</h6>
+                            <div class="example text-ss">
+                                Répondre aux questions de l'utilisateur
+                            </div>
+                            <div class="example text-ss">
+                                Générer des images avec la commande <b>/image</b>
+                            </div>
+                            <div class="example text-ss">
+                                Jouer de la musique avec la commande <b>/song</b>
+                            </div>
                         </div>
-                        <div class="example text-ss">
-                            "<b>/song</b> Cowboys from Hell, Pantera" <i class="bi bi-arrow-right"></i>
+                        <div class="col-4 d-flex flex-column align-items-center">
+                            <i class="bi bi-exclamation-triangle"></i>
+                            <h6>Limitations</h6>
+                            <div class="example text-ss">
+                                Peut générer des réponses fausses ou incohérentes
+                            </div>
+                            <div class="example text-ss">
+                                L'utilisateur doit fournir sa propre clé API
+                            </div>
+                            <div class="example text-ss">
+                                Connaissance limitée du monde après 2021
+                            </div>
                         </div>
                     </div>
-                    <div class="col-4 d-flex flex-column align-items-center">
-                        <i class="bi bi-lightning-charge"></i>
-                        <h6>Fonctionnalités</h6>
-                        <div class="example text-ss">
-                            Répondre aux questions de l'utilisateur
-                        </div>
-                        <div class="example text-ss">
-                            Générer des images avec la commande <b>/image</b>
-                        </div>
-                        <div class="example text-ss">
-                            Jouer de la musique avec la commande <b>/song</b>
-                        </div>
-                    </div>
-                    <div class="col-4 d-flex flex-column align-items-center">
-                        <i class="bi bi-exclamation-triangle"></i>
-                        <h6>Limitations</h6>
-                        <div class="example text-ss">
-                            Peut générer des réponses fausses ou incohérentes
-                        </div>
-                        <div class="example text-ss">
-                            L'utilisateur doit fournir sa propre clé API
-                        </div>
-                        <div class="example text-ss">
-                            Connaissance limitée du monde après 2021
-                        </div>
-                    </div>
+                    <div id="key-alert" class="alert alert-danger" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill"></i>&emsp;Clé API vide ou non valide
+                    </div>                  
                 </div>
-                <div id="key-alert" class="alert alert-danger" role="alert">
-                    <i class="bi bi-exclamation-triangle-fill"></i>&emsp;Clé API vide ou non valide
-                </div>                  
             </div>
         </div>
         <div id="output"></div>
-        <div class="bottom-section w-50">
-            <!-- Remplacer loader par https://getbootstrap.com/docs/5.3/components/spinners/ ????-->
+        <div class="container bottom-section w-50">
+            <!-- Remplacer loader par https://getbootstrap.com/docs/5.3/components/spinners/ ou https://i.kym-cdn.com/photos/images/original/001/373/328/b16.jpg ????-->
             <div id="loader" class="hide"></div>
             <div class="input-container">
                 <input type="text" name="" id="prompt" class="text-sm" placeholder="Envoyer un message">
