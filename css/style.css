@@ -448,7 +448,7 @@ button, #authors {
     display: none;
 }
 
-#loader {
+/*#loader {
     margin: 50px;
     border: 10px solid #f3f3f3;
     width: 20px;
@@ -456,8 +456,8 @@ button, #authors {
     border-radius: 50%;
     border-top: 10px solid #19c37d;
     -webkit-animation: spin 2s linear infinite; /* Safari */
-    animation: spin 1.5s linear infinite;
-}
+    /*animation: spin 1.5s linear infinite;
+}*/
 
 /* Safari */
 @-webkit-keyframes spin {
