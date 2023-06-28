@@ -1,14 +1,16 @@
 // Requests to davinci costs 10% of the price of GPT-3.5 per token !!!!
 const endpointURL = 'https://api.openai.com/v1/chat/completions';
 
-let home, keyInput, api_key, loader, outputElement, submitButton, inputElement, historyElement, butonElement, styleSelect, backgroundSelect;
+let home, keyAlert, keyInput, api_key, max_tokens, loader, outputElement, submitButton, inputElement, historyElement, butonElement, styleSelect, backgroundSelect;
 
 window.onload = init;
 
 function init() {
     home = document.querySelector('#home');
+    keyAlert = document.querySelector('#key-alert');
 
     keyInput = document.querySelector('#key');
+    max_tokens = document.querySelector('#max_tokens');
     loader = document.querySelector('#loader');
     
     outputElement = document.querySelector('#output');
@@ -33,6 +35,14 @@ function init() {
             submitButton.classList.remove('green');
         }
     });
+
+    keyInput.addEventListener("keyup", function(event) {
+        if(keyInput.value != "") {
+            keyAlert.classList.add('hide');
+        } else {
+            keyAlert.classList.remove('hide');
+        }
+    });
 }
 
 function clearInput() {
@@ -46,8 +56,6 @@ function beforeGetMessage() {
         home.classList.add('hide');
         loader.classList.remove('hide');
         getMessage();
-    } else {
-        alert("Please enter your API key");
     }
 }
 
@@ -93,7 +101,7 @@ async function getMessage() {
                     role: "user",
                     content: request
                 }],
-                max_tokens: 100
+                max_tokens: max_tokens.value
             })
         };
         try {
@@ -166,7 +174,7 @@ async function getResponseFromGPT(prompt) {
                 role: "user",
                 content: prompt
             }],
-            max_tokens: 100
+            max_tokens: max_tokens.value
         })
     };
     try {

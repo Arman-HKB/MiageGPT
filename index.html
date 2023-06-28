@@ -26,8 +26,8 @@
 
             <div id="sidebarBottom" class="py-2 text-sm">
                 <button type="button" id="settings" class="btn btn-block w-100 btn-dark m-0 px-0 text-sm" data-bs-toggle="modal" data-bs-target="#settingsModal"><i class="bi bi-gear"></i>&emsp;Paramètres</button>
-                <div id="authors" class="mt-2">
-                    Made by 3 BG
+                <div id="authors" class="mt-2 hide">
+                    E. Ersoy, Y. Baili, A. Hakobyan
                 </div>
             </div>
         </div>
@@ -40,17 +40,17 @@
             <div id="homeInner">
                 <p id="header" class="my-5">MiageGPT</p>
                 <div class="row">
-                    <div class="col-4 d-flex flex-column align-items-center">
+                    <div class="col-4 d-flex flex-column align-items-center" id="exampleColumn">
                         <i class="bi bi-lightbulb"></i>
                         <h6>Exemples</h6>
                         <div class="example text-ss">
-                            "Quand l'homme a-t-il marché sur la lune ?"
+                            "Quand l'homme a-t-il marché sur la lune ?" <i class="bi bi-arrow-right"></i>
                         </div>
                         <div class="example text-ss">
-                            "<b>/image</b> Un robot géant affrontant un monstre marin nucléaire"
+                            "<b>/image</b> Un robot affrontant un Kaijū sous l'eau" <i class="bi bi-arrow-right"></i>
                         </div>
                         <div class="example text-ss">
-                            "<b>/song</b> Cowboys from Hell, Pantera"
+                            "<b>/song</b> Cowboys from Hell, Pantera" <i class="bi bi-arrow-right"></i>
                         </div>
                     </div>
                     <div class="col-4 d-flex flex-column align-items-center">
@@ -63,14 +63,14 @@
                             Générer des images avec la commande <b>/image</b>
                         </div>
                         <div class="example text-ss">
-                            Jouer de la musique depuis Youtube avec la commande <b>/song</b>
+                            Jouer de la musique avec la commande <b>/song</b>
                         </div>
                     </div>
                     <div class="col-4 d-flex flex-column align-items-center">
                         <i class="bi bi-exclamation-triangle"></i>
                         <h6>Limitations</h6>
                         <div class="example text-ss">
-                            Peut occasionnellement générer des réponses fausses ou incohérentes
+                            Peut générer des réponses fausses ou incohérentes
                         </div>
                         <div class="example text-ss">
                             L'utilisateur doit fournir sa propre clé API
@@ -80,10 +80,14 @@
                         </div>
                     </div>
                 </div>
+                <div id="key-alert" class="alert alert-danger" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill"></i>&emsp;Clé API vide ou non valide
+                </div>                  
             </div>
         </div>
         <div id="output"></div>
         <div class="bottom-section w-50">
+            <!-- Remplacer loader par https://getbootstrap.com/docs/5.3/components/spinners/ ????-->
             <div id="loader" class="hide"></div>
             <div class="input-container">
                 <input type="text" name="" id="prompt" class="text-sm" placeholder="Envoyer un message">
@@ -121,24 +125,50 @@
                     <option value="noir">Noir</option>
                     <option value="blanc">Blanc</option>
                 </select>
-                <p>Miage GPT Apr 27 version, un essai pour un TP avec les M1 Miage...</p>
+                <p>Miage GPT Jun 30 version, projet final d'IA M1 Miage par <b>Emre ERSOY</b>, <b>Yannis BAILI</b> et <b>Arman HAKOBYAN</b></p>
             </div>
         </div>
     </div>
     
     <!-- Settings -->
     <div class="modal modal-md fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="settingsModalLabel">Paramètres</h1>
+                <p class="modal-title" id="settingsModalLabel">Paramètres</p>
                 <button type="button" class="m-0 p-0" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-lg"></i></button>
             </div>
             <div class="modal-body">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="key-label">Clé OpenAI</span>
-                    <input type="text" id="key" class="form-control" placeholder="" aria-label="key" aria-describedby="key-label">
-                </div>                  
+                <div class="row">
+                    <div class="col-12 col-md-3">
+                        <div class="selected-menu text-sm">&nbsp;<i class="bi bi-gear-fill"></i>&emsp;Général</div>
+                    </div>
+                    <div class="col-12 col-md-9">
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="key-label">Clé OpenAI</span>
+                            <input type="text" id="key" class="form-control" placeholder="" aria-label="key" aria-describedby="key-label">
+                        </div>
+        
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="token-label">Max Token</span>
+                            <input type="number" min="10" max="100" value="100" id="max_tokens" class="form-control" placeholder="" aria-label="token" aria-describedby="token-label">
+                        </div>
+                        <div class="input-group input-group-sm mb-3">
+                            <label class="input-group-text" for="themesSelect">Thème</label>
+                            <select class="form-select" id="themesSelect">
+                                <option value="dark" selected>Sombre</option>
+                                <option value="light">Clair</option>
+                                <option value="miage">Miage</option>
+                                <option value="glass">Glass</option>
+                            </select>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between align-items-center">
+                            Effacer toutes les chats
+                            <button type="button" class="btn btn-danger m-0">Effacer</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         </div>
