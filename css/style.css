@@ -107,6 +107,14 @@ h1 {
     color: white!important;
 }
 
+.microphone-button.active i {
+    color: rgb(233,0,0); /* Couleur de l'icône lorsque le bouton est actif */
+}
+  
+.microphone-button i {
+    color: white; /* Couleur de l'icône par défaut */
+}
+
 button {
     border : solid 0.5px rgba(255, 255, 255, 0.5);
     background-color: transparent;

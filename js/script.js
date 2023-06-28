@@ -2,6 +2,8 @@
 const endpointURL = 'https://api.openai.com/v1/chat/completions';
 
 let home, keyAlert, keyInput, api_key, max_tokens, loader, outputElement, actionsSelect, submitButton, inputElement, historyElement, butonElement, styleSelect, backgroundSelect;
+let isSpeechRecognitionActive = false; // Variable pour indiquer si la reconnaissance vocale est active
+let recognition; // Variable pour stocker l'instance de la reconnaissance vocale
 
 window.onload = init;
 
@@ -45,6 +47,61 @@ function init() {
             keyAlert.classList.remove('hide');
         }
     });
+
+    const microphoneButton = document.getElementById('microphoneButton');
+    microphoneButton.addEventListener('click', toggleSpeechRecognition);
+
+    function toggleSpeechRecognition() {
+        if (!isSpeechRecognitionActive) {
+        startSpeechRecognition();
+        } else {
+        stopSpeechRecognition();
+        }
+    }
+
+    function startSpeechRecognition() {
+    if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+      // Créer une instance de la reconnaissance vocale
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SpeechRecognition();
+
+      recognition.lang = 'fr-FR'; // Définir le code de langue en français
+
+      // Événement lorsque la reconnaissance vocale reçoit un résultat
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        console.log("Texte reconnu : ", transcript);
+        
+        // Écrire automatiquement le texte reconnu à l'endroit pour envoyer le message
+        inputElement.value = transcript;
+
+        // Envoyer le message
+        beforeGetMessage();
+      };
+
+      // Démarrer la reconnaissance vocale
+      recognition.start();
+
+      // Mettre à jour l'état de la reconnaissance vocale
+      isSpeechRecognitionActive = true;
+      
+      // Mettre à jour l'apparence du bouton du microphone
+      microphoneButton.classList.add('active');
+    } else {
+      console.log("La reconnaissance vocale n'est pas prise en charge par votre navigateur.");
+    }
+  }
+
+  function stopSpeechRecognition() {
+    // Arrêter la reconnaissance vocale
+    recognition.stop();
+
+    // Mettre à jour l'état de la reconnaissance vocale
+    isSpeechRecognitionActive = false;
+    
+    // Mettre à jour l'apparence du bouton du microphone
+    microphoneButton.classList.remove('active');
+  }
 }
 
 function clearInput() {
@@ -164,14 +221,14 @@ async function getMessage() {
         window.scrollTo({ top: pageHeight, behavior: 'smooth'});
     } else {
         console.log("message de gpt-3.5");
-        getResponseFromGPT(prompt);
+        getResponseFromGPT(prompt, option);
     }
     
     clearInput();
 }
 
 /* GPT-3.5 */
-async function getResponseFromGPT(prompt) {
+async function getResponseFromGPT(prompt, option) {
     const options = {
         method: 'POST',
         headers: {
@@ -187,16 +244,13 @@ async function getResponseFromGPT(prompt) {
             max_tokens: parseInt(max_tokens.value)
         })
     };
+
     try {
         const response = await fetch(endpointURL, options);
         const data = await response.json();
         console.log(data);
         const chatGptReponseTxt = data.choices[0].message.content;
-        /*const pElementChat = document.createElement('p');
-        pElementChat.classList.add('reponse');
-        pElementChat.textContent = chatGptReponseTxt;
-        outputElement.append(pElementChat);*/
-        outputElement.innerHTML += '<div class="gpt px-0 py-5"><div class="row w-50"><div class="col-1"><img src="./img/gpt.svg" alt="user" class="user-img"></div><div class="col-11">'+chatGptReponseTxt+'</div></div></div>';
+        outputElement.innerHTML += '<div class="gpt px-0 py-5"><div class="row w-50"><div class="col-1"><img src="./img/gpt.svg" alt="user" class="user-img"></div><div class="col-11">' + chatGptReponseTxt + '</div></div></div>';
 
         const pageHeight = Math.max(
             document.body.scrollHeight,
@@ -205,9 +259,9 @@ async function getResponseFromGPT(prompt) {
             document.documentElement.scrollHeight,
             document.documentElement.offsetHeight
         );
-        
+
         loader.classList.add('hide');
-        window.scrollTo({ top: pageHeight, behavior: 'smooth'});
+        window.scrollTo({ top: pageHeight, behavior: 'smooth' });
 
         if (data.choices[0].message.content) {
             const pElement = document.createElement('p');
@@ -217,11 +271,17 @@ async function getResponseFromGPT(prompt) {
             };
             historyElement.append(pElement);
         }
+
+        if (option === "/speech") {
+            const utterance = new SpeechSynthesisUtterance(chatGptReponseTxt);
+            speechSynthesis.speak(utterance);
+        }
     } catch (error) {
         console.log(error);
         throw error;
     }
 }
+
 
 /* Dall-E */
 async function getImageFromDallE(prompt) {
