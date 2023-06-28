@@ -1,7 +1,7 @@
 // Requests to davinci costs 10% of the price of GPT-3.5 per token !!!!
 const endpointURL = 'https://api.openai.com/v1/chat/completions';
 
-let home, keyAlert, keyInput, api_key, max_tokens, loader, outputElement, submitButton, inputElement, historyElement, butonElement, styleSelect, backgroundSelect;
+let home, keyAlert, keyInput, api_key, max_tokens, loader, outputElement, actionsSelect, submitButton, inputElement, historyElement, butonElement, styleSelect, backgroundSelect;
 
 window.onload = init;
 
@@ -13,11 +13,13 @@ function init() {
     max_tokens = document.querySelector('#max_tokens');
     loader = document.querySelector('#loader');
     
+    actionsSelect = document.querySelector('#actionsSelect');
+
     outputElement = document.querySelector('#output');
-    submitButton = document.querySelector('#submit');
+    submitButton = document.querySelector('#new_submit');
     submitButton.onclick = beforeGetMessage;
 
-    inputElement = document.querySelector('#prompt');
+    inputElement = document.querySelector('#new_prompt');
     historyElement = document.querySelector('.history');
     butonElement = document.querySelector('button');
     butonElement.onclick = clearInput;
@@ -66,8 +68,12 @@ async function getMessage() {
 
     let prompt = inputElement.value;
     prompt = prompt.toLowerCase();
+
+    let option = actionsSelect.value;
+    console.log(option);
     
-    if (prompt.startsWith('/image ')) {
+    //if (prompt.startsWith('/image ')) {
+    if (option === "/image") {
         prompt = prompt.substr(1);
 
         let array = prompt.split(" ");

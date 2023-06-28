@@ -337,6 +337,66 @@ button, #authors {
     margin-right: auto;
 }
 
+/* Prompt */
+#prompt-group {
+    position: relative;
+    width: 90%!important;
+}
+
+#new_submit {
+    position: absolute;
+    right: 10px;
+    padding-left: 10px;
+    border-radius: 5px;
+    padding-right: 10px;
+    align-self: center;
+    cursor:pointer;
+    z-index: 2;
+}
+
+#new_submit i {
+    color: #6b6c7b;
+}
+
+#actionsSelect {
+    width: 10%!important;
+    background-color: #202123!important;
+}
+
+#actionsSelect, #actionsSelect option {
+    padding: 10px!important;
+}
+
+#new_prompt {
+    width: 80%!important;
+    padding: 10px;
+    z-index: 1;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0 54px 55px,
+        rgba(0, 0, 0, 0.05) 0 -12px 30px,
+        rgba(0, 0, 0, 0.05) 0 4px 6px,
+        rgba(0, 0, 0, 0.05) 0 12px 3px,
+        rgba(0, 0, 0, 0.09) 0 -3px 5px;
+}
+
+#new_prompt::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/*#oGPT {
+    background-color: #93959e!important;
+}
+#oImage {
+    background-color: #c04040!important;
+}
+#oSong {
+    background-color: #407cc0!important;
+}
+#oMap {
+    background-color: #40c084!important;
+}*/
+
 /* Modal */
 .modal {
     background-color: #44444473!important;

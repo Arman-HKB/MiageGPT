@@ -91,10 +91,22 @@
         <div class="container bottom-section w-50">
             <!-- Remplacer loader par https://getbootstrap.com/docs/5.3/components/spinners/ ou https://i.kym-cdn.com/photos/images/original/001/373/328/b16.jpg ????-->
             <div id="loader" class="hide"></div>
-            <div class="input-container">
+             <!--<div class="input-container">
                 <input type="text" name="" id="prompt" class="text-sm" placeholder="Envoyer un message">
                 <div id="submit"><i class="bi bi-send-fill"></i></div>
-            </div>
+            </div>-->
+
+            <div class="input-group mb-3" id="prompt-group">
+                <select class="form-select" id="actionsSelect">
+                    <option value="gpt" selected id="oGPT">GPT 3.5</option>
+                    <option value="/image" id="oImage">/IMAGE</option>
+                    <option value="/song" id="oSong">/SONG</option>
+                    <option value="/map" id="oMap">/MAP</option>
+                </select>                
+                <input type="text" id="new_prompt" class="text-sm form-control" placeholder="Envoyer un message">
+                <div id="new_submit"><i class="bi bi-send-fill"></i></div>
+            </div>              
+
             <div class="info">
                 <b>Options :</b>
                 <br>
