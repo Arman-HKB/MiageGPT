@@ -1,21 +1,25 @@
 // Requests to davinci costs 10% of the price of GPT-3.5 per token !!!!
 const endpointURL = 'https://api.openai.com/v1/chat/completions';
 
-let home, keyAlert, keyInput, api_key, max_tokens, loader, outputElement, actionsSelect, submitButton, inputElement, historyElement, butonElement, styleSelect, backgroundSelect, promptSave;
+let body, main, home, keyAlert, keyInput, api_key, max_tokens, themesSelect, loader, outputElement, actionsSelect, imageFilters, submitButton, inputElement, historyElement, butonElement, styleSelect, backgroundSelect, periodSelect, promptSave;
 let isSpeechRecognitionActive = false; // Variable pour indiquer si la reconnaissance vocale est active
 let recognition; // Variable pour stocker l'instance de la reconnaissance vocale
 
 window.onload = init;
 
 function init() {
+    body = document.querySelector('body');
+    main = document.querySelector('.main');
     home = document.querySelector('#homeContainer');
     keyAlert = document.querySelector('#key-alert');
 
     keyInput = document.querySelector('#key');
     max_tokens = document.querySelector('#max_tokens');
+    themesSelect = document.querySelector('#themesSelect');
     loader = document.querySelector('#loader');
     
     actionsSelect = document.querySelector('#actionsSelect');
+    imageFilters = document.querySelector('#imageFilters');
 
     outputElement = document.querySelector('#output');
     submitButton = document.querySelector('#new_submit');
@@ -28,6 +32,7 @@ function init() {
 
     styleSelect = document.querySelector('#style');
     backgroundSelect = document.querySelector('#background');
+    periodSelect = document.querySelector('#period');
 
     inputElement.addEventListener("keyup", function(event) {
         if (event.key === "Enter") {
@@ -48,6 +53,31 @@ function init() {
         }
     });
 
+    document.querySelector('#toggleSideBar').addEventListener('click', function() {
+        removeMainLeftMargin();
+    });
+    document.querySelector('#toggleSideBarHide').addEventListener('click', function() {
+        addMainLeftMargin();
+    });
+
+    themesSelect.addEventListener('change', function() {
+        if(themesSelect.value === "light") {
+            body.classList.toggle('light-theme');
+        } else {
+            body.classList.remove('light-theme');
+            body.classList.remove('miage-theme');
+            body.classList.remove('glass-theme');
+        }
+    });
+
+    actionsSelect.addEventListener('change', function() {
+        if(actionsSelect.value === "/image") {
+            imageFilters.classList.remove('hide');
+        } else {
+            imageFilters.classList.add('hide');
+        }
+    });
+
     const microphoneButton = document.getElementById('microphoneButton');
     microphoneButton.addEventListener('click', toggleSpeechRecognition);
 
@@ -61,61 +91,69 @@ function init() {
     }
 
     function startSpeechRecognition() {
-    if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-      // Créer une instance de la reconnaissance vocale
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      recognition = new SpeechRecognition();
+        if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+            // Créer une instance de la reconnaissance vocale
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
 
-      recognition.lang = 'fr-FR'; // Définir le code de langue en français
+            recognition.lang = 'fr-FR'; // Définir le code de langue en français
 
-      // Événement lorsque la reconnaissance vocale reçoit un résultat
-      recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        console.log("Texte reconnu : ", transcript);
-        
-        // Écrire automatiquement le texte reconnu à l'endroit pour envoyer le message
-        inputElement.value = transcript;
+            // Événement lorsque la reconnaissance vocale reçoit un résultat
+            recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            console.log("Texte reconnu : ", transcript);
+            
+            // Écrire automatiquement le texte reconnu à l'endroit pour envoyer le message
+            inputElement.value = transcript;
 
-        // Envoyer le message
-        beforeGetMessage();
-      };
+            // Envoyer le message
+            beforeGetMessage();
+            };
 
-      // Démarrer la reconnaissance vocale
-      recognition.start();
+            // Démarrer la reconnaissance vocale
+            recognition.start();
 
-      // Mettre à jour l'état de la reconnaissance vocale
-      isSpeechRecognitionActive = true;
-      
-      // Mettre à jour l'apparence du bouton du microphone
-      microphoneButton.classList.add('active');
-    } else {
-      console.log("La reconnaissance vocale n'est pas prise en charge par votre navigateur.");
+            // Mettre à jour l'état de la reconnaissance vocale
+            isSpeechRecognitionActive = true;
+            
+            // Mettre à jour l'apparence du bouton du microphone
+            microphoneButton.classList.add('active');
+        } else {
+            console.log("La reconnaissance vocale n'est pas prise en charge par votre navigateur.");
+        }
     }
-  }
 
-  function stopSpeechRecognition() {
-    // Arrêter la reconnaissance vocale
-    recognition.stop();
+    function stopSpeechRecognition() {
+        // Arrêter la reconnaissance vocale
+        recognition.stop();
 
-    // Mettre à jour l'état de la reconnaissance vocale
-    isSpeechRecognitionActive = false;
-    
-    // Mettre à jour l'apparence du bouton du microphone
-    microphoneButton.classList.remove('active');
-  }
+        // Mettre à jour l'état de la reconnaissance vocale
+        isSpeechRecognitionActive = false;
+        
+        // Mettre à jour l'apparence du bouton du microphone
+        microphoneButton.classList.remove('active');
+    }
 
-  const themeSwitch = document.querySelector('#theme-toggle');
-  themeSwitch.addEventListener('change', toggleTheme);
+    /*const themeSwitch = document.querySelector('#theme-toggle');
+    themeSwitch.addEventListener('change', toggleTheme);
   
-  function toggleTheme() {
-    const body = document.querySelector('body');
-    body.classList.toggle('light-theme');
-  }
+    function toggleTheme() {
+        const body = document.querySelector('body');
+        body.classList.toggle('light-theme');
+    }*/
 }
 
 function clearInput() {
     submitButton.classList.remove('green');
     inputElement.value = '';
+}
+
+function removeMainLeftMargin() {
+    main.classList.remove('sidebarVisible');
+}
+
+function addMainLeftMargin() {
+    main.classList.add('sidebarVisible');
 }
 
 function beforeGetMessage() {
@@ -137,6 +175,8 @@ async function getMessage() {
 
     let option = actionsSelect.value;
     console.log(option);
+
+    let pageHeight;
     
     //if (prompt.startsWith('/image ')) {
     if (option === "/image") {
@@ -153,13 +193,19 @@ async function getMessage() {
         if(styleSelect.value != "none") {
             request += "Ajoutes un style " + styleSelect.value + ". ";
         } else {
-            request += "Ajoutes un style comme photo, realististe, cartoon, 3D, croquis, manga, digital art, pixel art.";
+            request += "Ajoutes un style comme photo, 3D, croquis, cartoon, manga, digital art, pixel art, nom de preintre celebre.";
         }
 
         if(backgroundSelect.value != "none") {
             request += "Ajoutes un arrière-plan " + backgroundSelect.value + ". ";
         } else {
-            request += "Ajoutes un arrière-plan comme flou, floral, multicolor, couleur unique.";
+            request += "Ajoutes un arrière-plan comme flou, pixelisé, foule, foret, ville, ciel, floral, multicolor, noir, blanc, couleur unique.";
+        }
+
+        if(periodSelect.value != "none") {
+            request += "Ajoutes un temps " + periodSelect.value + ". ";
+        } else {
+            request += "Ajoutes un Ajoutes un temps comme de jour, de nuit, pluvieux, enneigé, ensoleillé, automnal.";
         }
         
         request += "Retourne moi uniquement le prompt."
@@ -186,6 +232,16 @@ async function getMessage() {
             prompt = chatGptReponseTxt;
             promptSave = chatGptReponseTxt;
             outputElement.innerHTML += '<div class="gpt px-0 py-5"><div class="row w-50"><div class="col-1"><img src="./img/gpt.svg" alt="user" class="user-img"></div><div class="col-11">Prompt pour Dall-E : '+chatGptReponseTxt+'</div></div></div>';
+            
+            pageHeight = Math.max(
+                document.body.scrollHeight,
+                document.body.offsetHeight,
+                document.documentElement.clientHeight,
+                document.documentElement.scrollHeight,
+                document.documentElement.offsetHeight
+            );
+            
+            window.scrollTo({ top: pageHeight, behavior: 'smooth'});
         } catch (error) {
             console.log(error);
             throw error;
@@ -232,7 +288,7 @@ async function getMessage() {
         //outputElement.append(gridContainer);
         col11Div.append(gridContainer);
         
-        const pageHeight = Math.max(
+        pageHeight = Math.max(
             document.body.scrollHeight,
             document.body.offsetHeight,
             document.documentElement.clientHeight,

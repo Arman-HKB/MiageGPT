@@ -3,12 +3,12 @@
 :root {
     --background-color: #f5f5f5;
     --text-color: white;
-  }
+}
   
-  [data-theme="light"] {
+[data-theme="light"] {
     --background-color: #222;
     --text-color: black !important;
-  }
+}
 
 * {
     color: var(--text-color) ;
@@ -35,18 +35,6 @@ h1 {
 
 }
 
-/*.side-bar {
-    background-color: #202123;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 244px;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}*/
-
 .main {
     display: flex;
     flex-direction: column;
@@ -54,7 +42,6 @@ h1 {
     text-align: center;
     justify-content: space-between;
     height: 100vh;
-    /*margin-left: 260px;*/
 }
 
 .bottom-section {
@@ -64,14 +51,18 @@ h1 {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /*width: 100%;*/
-    
+}
+
+.sidebarVisible {
+    margin-left: 260px;
 }
 
 .info {
+    width: 90%;
     color: rgba(255, 255, 255, 0.5);
     font-size: 11px;
-    padding: 10px;
+    padding-top: 0;
+    padding-bottom: 10px;
 }
 
 #prompt {
@@ -195,7 +186,7 @@ input[type="radio"] {
 
 #output {
     width: 100%;
-    padding-bottom: 200px;
+    padding-bottom: 300px;
     text-align: left;
 }
 
@@ -214,6 +205,7 @@ select, option {
 
 /* Sidebar */
 #accordionSidebar {
+    position: fixed;
     padding: 10px;
     width: 260px;
     min-height: 100vh;
@@ -266,7 +258,7 @@ button, #authors {
 }
 
 #sidebar {
-    height: 100%;
+    height: 100vh;
     position: relative;
 }
 
@@ -275,7 +267,7 @@ button, #authors {
     width: 100%;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: 10px;
     border-top: 1px solid #555659;
 }
 
@@ -314,7 +306,8 @@ button, #authors {
 }
 
 #homeInner {
-    margin-top: 25%;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .example {
@@ -400,35 +393,30 @@ button, #authors {
     padding: 10px!important;
 }
 
+#prompt-group{
+    box-shadow: rgba(0, 0, 0, 0.05) 0 54px 55px,
+    rgba(0, 0, 0, 0.05) 0 -12px 30px,
+    rgba(0, 0, 0, 0.05) 0 4px 6px,
+    rgba(0, 0, 0, 0.05) 0 12px 3px,
+    rgba(0, 0, 0, 0.09) 0 -3px 5px;
+}
+
 #new_prompt {
     width: 80%!important;
     padding: 10px;
     z-index: 1;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.05) 0 54px 55px,
+    /*box-shadow: rgba(0, 0, 0, 0.05) 0 54px 55px,
         rgba(0, 0, 0, 0.05) 0 -12px 30px,
         rgba(0, 0, 0, 0.05) 0 4px 6px,
         rgba(0, 0, 0, 0.05) 0 12px 3px,
-        rgba(0, 0, 0, 0.09) 0 -3px 5px;
+        rgba(0, 0, 0, 0.09) 0 -3px 5px;*/
 }
 
 #new_prompt::placeholder {
     color: rgba(255, 255, 255, 0.5);
 }
-
-/*#oGPT {
-    background-color: #93959e!important;
-}
-#oImage {
-    background-color: #c04040!important;
-}
-#oSong {
-    background-color: #407cc0!important;
-}
-#oMap {
-    background-color: #40c084!important;
-}*/
 
 /* Modal */
 .modal {
@@ -452,6 +440,10 @@ button, #authors {
     background-color: #353535!important;
 }
 
+.imageFilters-input-group-text {
+    background-color: #202123!important;
+}
+
 .form-control, .form-select {
     background-color: #3e3f4b!important;
 }
@@ -468,6 +460,12 @@ button, #authors {
     background-color: #3e3f4b;
 }
 
+.form-check-input {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+
 /* Loader */
 .hide {
     display: none!important;
@@ -482,9 +480,8 @@ button, #authors {
     border-top: 10px solid #19c37d;
     -webkit-animation: spin 2s linear infinite; /* Safari */
     /*animation: spin 1.5s linear infinite;
-}*/
+}
 
-/* Safari */
 @-webkit-keyframes spin {
     0% { -webkit-transform: rotate(0deg); }
     100% { -webkit-transform: rotate(360deg); }
@@ -493,7 +490,7 @@ button, #authors {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-}
+}*/
 
 .toggle-container {
     position: relative;
@@ -558,8 +555,12 @@ button, #authors {
     color: rgba(255, 255, 255, 0.7);
 }
 
-.light-theme .example, .light-theme #actionsSelect {
+.light-theme .example, .light-theme #actionsSelect, .light-theme .imageFilters-input-group-text {
     background-color: #6b6c7b!important;
+}
+
+.light-theme #imageFilters .form-select {
+    background-color: #84848d!important;
 }
 
 .light-theme #exampleColumn .example:hover {
@@ -586,7 +587,6 @@ button, #authors {
     color: #6b6c7b!important;
 }
 
-
 /* .dark-theme p{
     color: black;
 }*/
@@ -606,12 +606,16 @@ button, #authors {
     color: rgba(255, 255, 255, 0.7);
 }
 
-.light-theme #new_prompt{
+.light-theme #new_prompt, .light-theme .form-check-label {
     color: black!important;
 }
 
 .light-theme #new_prompt::placeholder {
     color: rgb(196, 196, 196);
+}
+
+.light-theme hr {
+    border-color: black;
 }
 
 /* .dark-theme .history p {

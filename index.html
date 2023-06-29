@@ -40,14 +40,14 @@
     <button type="button" id="toggleSideBarHide" class="btn btn-dark hide text-sm"><i class="bi bi-layout-sidebar"></i></button>
 
     <!-- Main -->
-    <div class="container-fluid p-0 main">
+    <div class="container-fluid p-0 main sidebarVisible">
         <div id="homeContainer" class="container">
             <div id="home" class="w-50 h-100">
                 <div id="homeInner">
                     <p id="header" class="my-5 noir">MiageGPT</b> </p>
                     <div class="row">
-                  <div class="col-4 d-flex flex-column align-items-center" id="exampleColumn">
-                            <i class="bi bi-lightbulb noir"></i>
+                        <div class="col-4 d-flex flex-column align-items-center" id="exampleColumn">
+                            <i class="bi bi-lightbulb"></i>
                             <h6>Exemples</h6>
                             <div class="example text-ss">
                                 "Quand l'homme a-t-il marché sur la lune ?" <i class="bi bi-arrow-right"></i>
@@ -56,24 +56,36 @@
                                 "<b>/image</b> Un robot affrontant un Kaijū sous l'eau" <i class="bi bi-arrow-right"></i>
                             </div>
                             <div class="example text-ss">
-                                "<b>/song</b> Cowboys from Hell, Pantera" <i class="bi bi-arrow-right"></i>
+                                "<b>/video</b> http://y2u.be/dQw4w9WgXcQ" <i class="bi bi-arrow-right"></i>
+                            </div>
+                            <div class="example text-ss">
+                                "<b>/map</b> lat: 43.848397, lon: 6.72641 <i class="bi bi-arrow-right"></i>
+                            </div>
+                            <div class="example text-ss">
+                                "<b>/speech</b> Quand l'homme a-t-il marché sur la lune ? <i class="bi bi-arrow-right"></i>
                             </div>
                         </div>
                         <div class="col-4 d-flex flex-column align-items-center">
-                            <i class="bi bi-lightning-charge noir"></i>
+                            <i class="bi bi-lightning-charge"></i>
                             <h6>Fonctionnalités</h6>
                             <div class="example text-ss">
-                                Répondre aux questions de l'utilisateur
+                                Répondre aux questions et générer du code
                             </div>
                             <div class="example text-ss">
-                                Générer des images avec la commande <b>/image</b>
+                                Générer des images avec l'option <b>/image</b>
                             </div>
                             <div class="example text-ss">
-                                Jouer de la musique avec la commande <b>/song</b>
+                                Jouer une vidéo avec l'option <b>/video</b>
+                            </div>
+                            <div class="example text-ss">
+                                Obtenir un itinéraire avec l'option <b>/map</b>
+                            </div>
+                            <div class="example text-ss">
+                                Text to Speech avec l'option <b>/speech</b>
                             </div>
                         </div>
                         <div class="col-4 d-flex flex-column align-items-center">
-                            <i class="bi bi-exclamation-triangle noir"></i>
+                            <i class="bi bi-exclamation-triangle"></i>
                             <h6>Limitations</h6>
                             <div class="example text-ss">
                                 Peut générer des réponses fausses ou incohérentes
@@ -83,6 +95,12 @@
                             </div>
                             <div class="example text-ss">
                                 Connaissance limitée du monde après 2021
+                            </div>
+                            <div class="example text-ss">
+                                Speech to Text non disponible sur Mozilla Firefox
+                            </div>
+                            <div class="example text-ss">
+                                Générer du code requiert un grand nombre de token
                             </div>
                         </div>
                     </div>
@@ -94,62 +112,87 @@
         </div>
         <div id="output"></div>
         <div class="container bottom-section w-50">
-            <div id="loader" class="hide" style="width:100%;height:0;padding-bottom:20%;padding-right:30%;">
-                <iframe src="https://giphy.com/embed/jc2PkKKr3clTBekMzn" width="25%" height="25%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+            <div id="loader" class="my-3 hide">
+                <iframe src="https://giphy.com/embed/jc2PkKKr3clTBekMzn" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
             </div> 
             <div class="input-group mb-3" id="prompt-group">
                 <select class="form-select" id="actionsSelect">
-                    <option value="gpt" selected id="oGPT">GPT 3.5</option>
-                    <option value="/image" id="oImage">/IMAGE</option>
-                    <option value="/song" id="oSong">/SONG</option>
-                    <option value="/map" id="oMap">/MAP</option>
-                    <option value="/speech" id="oSpeech">/SPEECH</option>
+                    <option value="gpt" selected id="">GPT 3.5</option>
+                    <option value="/image" id="">/IMAGE</option>
+                    <option value="/video" id="">/VIDEO</option>
+                    <option value="/map" id="">/MAP</option>
+                    <option value="/speech" id="">/SPEECH</option>
                 </select>                
                 <input type="text" id="new_prompt" class="text-sm form-control" placeholder="Envoyer un message">
                 <div id="microphoneButton" class="microphone-button"><i class="fas fa-microphone"></i></div>
                 <div id="new_submit"><i class="bi bi-send-fill"></i></div>
             </div>              
 
-            <div class="info">
-                <b class="noir">Options :</b>
-                <br>
-                <!--<label for="key"><small>OpenAI Key</small></label>
-                <input type="text" id="key"><br>-->
-                <label for="gridSize"><b class="noir">Grid</b></label>
-                <input type="radio" id="1x1" name="gridSize" value="1x1">
-                <label for="1x1"><small class="noir">1x1</small></label>
-                <input type="radio" id="2x2" name="gridSize" value="2x2" checked>
-                <label for="2x2"><small class="noir">2x2</small></label><br>
-                    
-                <label for="style"><b class="noir">Style</b></label>
-                <select id="style">
-                    <option value="none"></option>
-                    <option value="photo">Photo</option>
-                    <option value="realiste">Realiste</option>
-                    <option value="cartoon">Cartoon</option>
-                    <option value="3D">3D</option>
-                    <option value="croquis">Croquis</option>
-                    <option value="manga">Manga</option>
-                    <option value="digital art">Digital art</option>
-                    <option value="pixel art">Pixel art</option>
-                </select>
-                <label for="background"><b class="noir">Background</b></label>
-                <select id="background">
-                    <option value="none"></option>
-                    <option value="flou">Flou</option>
-                    <option value="floral">Floral</option>
-                    <option value="multicolore">Multicolore</option>
-                    <option value="noir">Noir</option>
-                    <option value="blanc">Blanc</option>
-                </select>
+            <div class="info px-0">
+                <div id="imageFilters" class="p-0 mb-3 hide">
+                    <p class="noir text-sm mb-1 text-start">Filtres pour la génération d'images :</p>
+                    <div class="input-group input-group-sm mb-1">
+                        <label class="input-group-text imageFilters-input-group-text" for="gridSize">Affichage</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input mx-1" type="radio" name="gridSize" id="1x1" value="1x1">
+                            <label class="form-check-label" for="inlineRadio1">1x1</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="gridSize" id="2x2" value="2x2" checked>
+                            <label class="form-check-label" for="inlineRadio2">2x2</label>
+                        </div>
+                    </div>
+                    <div class="input-group input-group-sm mb-1">
+                        <label class="input-group-text imageFilters-input-group-text" for="style">Style</label>
+                        <select class="form-select" id="style">
+                            <option value="none" selected>Aléatoire</option>
+                            <option value="photo">Photo</option>
+                            <option value="3D">3D</option>
+                            <option value="croquis">Croquis</option>
+                            <option value="cartoon">Cartoon</option>
+                            <option value="manga">Manga</option>
+                            <option value="digital art">Digital art</option>
+                            <option value="pixel art">Pixel art</option>
+                            <option value="peintre celebre">Peintre celebre</option>
+                        </select>
+                    </div>
+                    <div class="input-group input-group-sm mb-1">
+                        <label class="input-group-text imageFilters-input-group-text" for="background">Arrière-plan</label>
+                        <select class="form-select" id="background">
+                            <option value="none" selected>Aléatoire</option>
+                            <option value="flou">Flou</option>
+                            <option value="pixelisé">Pixelisé</option>
+                            <option value="foule">Foule</option>
+                            <option value="foret">Forêt</option>
+                            <option value="ville">Ville</option>
+                            <option value="ciel">Ciel</option>
+                            <option value="floral">Floral</option>
+                            <option value="multicolore">Multicolore</option>
+                            <option value="noir">Noir</option>
+                            <option value="blanc">Blanc</option>
+                        </select>
+                    </div>
+                    <div class="input-group input-group-sm mb-1">
+                        <label class="input-group-text imageFilters-input-group-text" for="period">Temps</label>
+                        <select class="form-select" id="period">
+                            <option value="none" selected>Aléatoire</option>
+                            <option value="de jour">De jour</option>
+                            <option value="de nuit">De nuit</option>
+                            <option value="pluvieux">Pluvieux</option>
+                            <option value="enneigé">Enneigé</option>
+                            <option value="ensoleillé">Ensoleillé</option>
+                            <option value="automnal">Automnal</option>
+                        </select>
+                    </div>
+                </div>
 
-                <div class="toggle-container">
+                <div class="toggle-container hide">
                     <input type="checkbox" id="theme-toggle" class="toggle-checkbox">
                     <label for="theme-toggle" class="toggle-label"></label>
-                  </div>
+                </div>
 
                 <p class="noir">Miage GPT Jun 30 version, projet final d'IA M1 Miage par <b class="noir">Emre ERSOY</b>, <b class="noir">Yannis BAILI</b> et <b class="noir">Arman HAKOBYAN</b></p>
-        </div>
+            </div>
         </div>
     </div>
     
