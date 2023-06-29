@@ -29,8 +29,6 @@ function init() {
     styleSelect = document.querySelector('#style');
     backgroundSelect = document.querySelector('#background');
 
-
-
     inputElement.addEventListener("keyup", function(event) {
         if (event.key === "Enter") {
             beforeGetMessage();
@@ -287,7 +285,8 @@ async function getResponseFromGPT(prompt, option) {
         }
     
         outputElement.innerHTML += '<div class="gpt px-0 py-5"><div class="row w-50"><div class="col-1"><img src="./img/gpt.svg" alt="user" class="user-img"></div><div class="col-11">' + formattedResponse + '</div></div></div>';
-        hljs.highlightAll();
+        
+        //hljs.highlightAll();
 
         const pageHeight = Math.max(
             document.body.scrollHeight,
@@ -318,7 +317,6 @@ async function getResponseFromGPT(prompt, option) {
         throw error;
     }
 }
-
 
 /* Dall-E */
 async function getImageFromDallE(prompt) {
