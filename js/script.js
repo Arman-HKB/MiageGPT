@@ -29,6 +29,8 @@ function init() {
     styleSelect = document.querySelector('#style');
     backgroundSelect = document.querySelector('#background');
 
+
+
     inputElement.addEventListener("keyup", function(event) {
         if (event.key === "Enter") {
             beforeGetMessage();
@@ -102,6 +104,14 @@ function init() {
     
     // Mettre à jour l'apparence du bouton du microphone
     microphoneButton.classList.remove('active');
+  }
+
+  const themeSwitch = document.querySelector('#theme-toggle');
+  themeSwitch.addEventListener('change', toggleTheme);
+  
+  function toggleTheme() {
+    const body = document.querySelector('body');
+    body.classList.toggle('light-theme');
   }
 }
 
@@ -265,7 +275,19 @@ async function getResponseFromGPT(prompt, option) {
         const data = await response.json();
         console.log(data);
         const chatGptReponseTxt = data.choices[0].message.content;
-        outputElement.innerHTML += '<div class="gpt px-0 py-5"><div class="row w-50"><div class="col-1"><img src="./img/gpt.svg" alt="user" class="user-img"></div><div class="col-11">' + chatGptReponseTxt + '</div></div></div>';
+        let formattedResponse = chatGptReponseTxt;
+
+        if (isCodeResponse(chatGptReponseTxt)) {
+            const codeBlock = chatGptReponseTxt.match(/```([\s\S]+?)```/);
+            if (codeBlock) {
+                const code = codeBlock[1];
+                const formattedCode = '<pre><code class="hljs">' + code + '</code></pre>';
+                formattedResponse = chatGptReponseTxt.replace(codeBlock[0], formattedCode);
+            }
+        }
+    
+        outputElement.innerHTML += '<div class="gpt px-0 py-5"><div class="row w-50"><div class="col-1"><img src="./img/gpt.svg" alt="user" class="user-img"></div><div class="col-11">' + formattedResponse + '</div></div></div>';
+        hljs.highlightAll();
 
         const pageHeight = Math.max(
             document.body.scrollHeight,
