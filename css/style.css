@@ -351,6 +351,18 @@ button, #authors {
     width: 90%!important;
 }
 
+#microphoneButton {
+    position: absolute;
+    right: 50px;
+    padding-left: 10px;
+    border-radius: 5px;
+    padding-right: 10px;
+    align-self: center;
+    cursor:pointer;
+    z-index: 2;
+    border: 1px solid #6b6c7b;
+}
+
 #new_submit {
     position: absolute;
     right: 10px;

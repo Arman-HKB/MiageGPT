@@ -53,9 +53,10 @@ function init() {
 
     function toggleSpeechRecognition() {
         if (!isSpeechRecognitionActive) {
-        startSpeechRecognition();
+            inputElement.focus();
+            startSpeechRecognition();
         } else {
-        stopSpeechRecognition();
+            stopSpeechRecognition();
         }
     }
 
