@@ -1,7 +1,7 @@
 // Requests to davinci costs 10% of the price of GPT-3.5 per token !!!!
 const endpointURL = 'https://api.openai.com/v1/chat/completions';
 
-let home, keyAlert, keyInput, api_key, max_tokens, loader, outputElement, actionsSelect, submitButton, inputElement, historyElement, butonElement, styleSelect, backgroundSelect;
+let home, keyAlert, keyInput, api_key, max_tokens, loader, outputElement, actionsSelect, submitButton, inputElement, historyElement, butonElement, styleSelect, backgroundSelect, promptSave;
 let isSpeechRecognitionActive = false; // Variable pour indiquer si la reconnaissance vocale est active
 let recognition; // Variable pour stocker l'instance de la reconnaissance vocale
 
@@ -176,7 +176,7 @@ async function getMessage() {
             const data = await response.json();
             const chatGptReponseTxt = data.choices[0].message.content;
             prompt = chatGptReponseTxt;
-            console.log("Prompt pour Dall-E : " + chatGptReponseTxt);
+            promptSave = chatGptReponseTxt;
             outputElement.innerHTML += '<div class="gpt px-0 py-5"><div class="row w-50"><div class="col-1"><img src="./img/gpt.svg" alt="user" class="user-img"></div><div class="col-11">Prompt pour Dall-E : '+chatGptReponseTxt+'</div></div></div>';
         } catch (error) {
             console.log(error);
@@ -193,6 +193,12 @@ async function getMessage() {
             gridContainer.classList.add('grid-container');
         }
 
+        let index = 0;
+        
+        let gptDivs = document.getElementsByClassName('gpt');
+        let lastGptDiv = gptDivs[gptDivs.length - 1];
+        let col11Div = lastGptDiv.querySelector('.col-11');
+
         images.data.forEach(imageObj => {
             const imageContainer = document.createElement('div');
             imageContainer.width=250;
@@ -206,9 +212,17 @@ async function getMessage() {
 
             imageContainer.append(imgElement);
 
+            imgElement.addEventListener('click', () => {
+                // Fonction pas encore disponible
+                //getAlternativeImageFromDallE(promptSave, imgElement.src);
+            });
+
             gridContainer.append(imageContainer);
+            
+            index++;
         });
-        outputElement.append(gridContainer);
+        //outputElement.append(gridContainer);
+        col11Div.append(gridContainer);
         
         const pageHeight = Math.max(
             document.body.scrollHeight,
@@ -306,5 +320,71 @@ async function getImageFromDallE(prompt) {
     } catch (error) {
         console.log(error);
         throw error;
+    }
+}
+
+// Crée un model pour DALL-E
+async function fineTuneDALL_E(imageUrl, prompt) {
+    const options = {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${api_key}`,
+        },
+        body: JSON.stringify({
+            images: [imageUrl],
+            prompts: [prompt],
+        }),
+    };
+  
+    try {
+        const response = await fetch(
+            'https://api.openai.com/v1/engines/davinci/codex/fine-tune',
+            options
+        );
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
+// Génère une image alternative à partir d'un prompt et d'un model DALL-E
+async function generateAlternativeImageFromDallE(prompt, modelId) {
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${api_key}`,
+        },
+        body: JSON.stringify({
+            prompt: prompt,
+            n: 4,
+            size: '256x256',
+            model: modelId,
+        }),
+    };
+  
+    try {
+        const response = await fetch(
+            'https://api.openai.com/v1/images/generations',
+            options
+        );
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
+async function getAlternativeImageFromDallE(prompt, reference) {
+    try {
+        let fineTuningResult = await createFineTuneForDallE(reference, prompt);
+        let similarImages = await generateAlternativeImageFromDallE(prompt, fineTuningResult.id);
+        console.log(similarImages);
+    } catch (error) {
+        console.log(error);
     }
 }
