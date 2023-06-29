@@ -410,3 +410,28 @@ async function getAlternativeImageFromDallE(prompt, reference) {
         console.log(error);
     }
 }
+function isCodeResponse(response) {
+    // Cherche la première occurrence de ``` dans la réponse
+    const startIndex = response.indexOf("```");
+
+    // Vérifie si ``` est présent dans la réponse
+    if (startIndex !== -1) {
+        // Cherche la fin des balises de code (```)
+        const endIndex = response.indexOf("```", startIndex + 3);
+
+        // Vérifie si la fin des balises de code a été trouvée
+        if (endIndex !== -1) {
+            // Récupère la partie du texte entre les balises de code
+            const codeSnippet = response.substring(startIndex + 3, endIndex);
+
+            // Vérifie si le code extrait n'est pas vide
+            if (codeSnippet.trim().length > 0) {
+                // Retourne true pour indiquer que la réponse contient un bloc de code
+                return true;
+            }
+        }
+    }
+
+    // Retourne false si la réponse ne contient pas de bloc de code valide
+    return false;
+}
