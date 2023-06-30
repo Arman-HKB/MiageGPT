@@ -71,8 +71,6 @@ function init() {
             body.classList.toggle('light-theme');
         } else {
             body.classList.remove('light-theme');
-            body.classList.remove('miage-theme');
-            body.classList.remove('glass-theme');
         }
     });
 
@@ -177,9 +175,10 @@ function beforeGetMessage() {
 async function getMessage() {
 
     let prompt = inputElement.value;
-    prompt = prompt.toLowerCase();
-
     let option = actionsSelect.value;
+    if (option != "/video") {
+        prompt = prompt.toLowerCase();
+    }
     console.log(option);
 
     let pageHeight;
@@ -305,6 +304,41 @@ async function getMessage() {
         //outputElement.append(gridContainer);
         //col11Div.append(gridContainer);
         
+        pageHeight = Math.max(
+            document.body.scrollHeight,
+            document.body.offsetHeight,
+            document.documentElement.clientHeight,
+            document.documentElement.scrollHeight,
+            document.documentElement.offsetHeight
+        );
+        
+        loader.classList.add('hide');
+        window.scrollTo({ top: pageHeight, behavior: 'smooth'});
+    } else if (option === "/video") {
+        console.log("lecture de video");
+        //prompt = prompt.replace(/(.*)v=/,"");
+
+        console.log(prompt);
+
+        if(prompt.includes("vimeo")) {
+            prompt = prompt.replace(/(.*)vimeo.com\//,"");
+            outputElement.innerHTML += '<div class="gpt px-0 py-5"><div class="row w-50"><div class="col-1"><img src="./img/gpt.svg" alt="user" class="user-img"></div><div class="col-11"><iframe src="https://player.vimeo.com/video/'+prompt+'" allow="fullscreen;"></iframe></div></div></div>'
+        } else if(prompt.includes("dailymotion")) {
+            prompt = prompt.replace(/(.*)video\//,"");
+            outputElement.innerHTML += '<div class="gpt px-0 py-5"><div class="row w-50"><div class="col-1"><img src="./img/gpt.svg" alt="user" class="user-img"></div><div class="col-11"><iframe src="https://www.dailymotion.com/embed/video/'+prompt+'" allow="fullscreen;"></iframe></div></div></div>'
+        } else if(prompt.includes("youtube")) {
+            prompt = prompt.replace(/(.*)v=/,"");
+            outputElement.innerHTML += '<div class="gpt px-0 py-5"><div class="row w-50"><div class="col-1"><img src="./img/gpt.svg" alt="user" class="user-img"></div><div class="col-11"><iframe src="https://www.youtube.com/embed/'+prompt+'?autoplay=1" allow="fullscreen;"></iframe></div></div></div>'
+        } else if(prompt.includes("twitch")) {
+            prompt = prompt.replace(/(.*)twitch.tv\//,"");
+            outputElement.innerHTML += '<div class="gpt px-0 py-5"><div class="row w-50"><div class="col-1"><img src="./img/gpt.svg" alt="user" class="user-img"></div><div class="col-11"><iframe src="https://www.twitch.tv/'+prompt+'" allow="fullscreen;"></iframe></div></div></div>'
+        } else if(prompt.includes("tiktok")) {
+            // to do
+        } else {
+            outputElement.innerHTML += '<div class="gpt px-0 py-5"><div class="row w-50"><div class="col-1"><img src="./img/gpt.svg" alt="user" class="user-img"></div><div class="col-11">URL non supporté</div></div></div>'
+        }
+
+        //outputElement.innerHTML += '<div class="gpt px-0 py-5"><div class="row w-50"><div class="col-1"><img src="./img/gpt.svg" alt="user" class="user-img"></div><div class="col-11"><iframe src="https://www.youtube.com/embed/'+prompt+'?autoplay=1" allow="fullscreen;"></iframe></div></div></div>'
         pageHeight = Math.max(
             document.body.scrollHeight,
             document.body.offsetHeight,

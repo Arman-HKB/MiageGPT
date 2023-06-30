@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/default.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     <script src="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/lib/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
     <link rel="stylesheet" href="./css/style.css">
@@ -56,10 +57,7 @@
                                 "<b>/image</b> Un robot affrontant un Kaijū sous l'eau" <i class="bi bi-arrow-right"></i>
                             </div>
                             <div class="example text-ss">
-                                "<b>/video</b> http://y2u.be/dQw4w9WgXcQ" <i class="bi bi-arrow-right"></i>
-                            </div>
-                            <div class="example text-ss">
-                                "<b>/map</b> lat: 43.848397, lon: 6.72641 <i class="bi bi-arrow-right"></i>
+                                "<b>/video</b> https://vimeo.com/375468729" <i class="bi bi-arrow-right"></i>
                             </div>
                             <div class="example text-ss">
                                 "<b>/speech</b> Quand l'homme a-t-il marché sur la lune ? <i class="bi bi-arrow-right"></i>
@@ -78,9 +76,6 @@
                                 Jouer une vidéo avec l'option <b>/video</b>
                             </div>
                             <div class="example text-ss">
-                                Obtenir un itinéraire avec l'option <b>/map</b>
-                            </div>
-                            <div class="example text-ss">
                                 Text to Speech avec l'option <b>/speech</b>
                             </div>
                         </div>
@@ -92,9 +87,6 @@
                             </div>
                             <div class="example text-ss">
                                 L'utilisateur doit fournir sa propre clé API
-                            </div>
-                            <div class="example text-ss">
-                                Connaissance limitée du monde après 2021
                             </div>
                             <div class="example text-ss">
                                 Speech to Text non disponible sur Mozilla Firefox
@@ -120,7 +112,6 @@
                     <option value="gpt" selected id="">GPT 3.5</option>
                     <option value="/image" id="">/IMAGE</option>
                     <option value="/video" id="">/VIDEO</option>
-                    <option value="/map" id="">/MAP</option>
                     <option value="/speech" id="">/SPEECH</option>
                 </select>                
                 <input type="text" id="new_prompt" class="text-sm form-control" placeholder="Envoyer un message">
@@ -224,8 +215,6 @@
                             <select class="form-select" id="themesSelect">
                                 <option value="dark" selected>Sombre</option>
                                 <option value="light">Clair</option>
-                                <option value="miage">Miage</option>
-                                <option value="glass">Glass</option>
                             </select>
                         </div>
                         <hr>
@@ -247,5 +236,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=sk3OEgcV"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.1/annyang.min.js"></script>
+    <script src="https://www.tiktok.com/embed.js" async></script>
 </body>
 </html>

@@ -350,6 +350,14 @@ button, #authors {
     background-color: #444654;
 }
 
+.gpt iframe {
+    margin-left: auto!important;
+    margin-right: auto!important;
+    width: 30vw;
+    height: 30vh;
+    border: none;
+}
+
 .user .row, .gpt .row {
     margin-left: auto;
     margin-right: auto;
