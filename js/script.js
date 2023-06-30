@@ -14,11 +14,17 @@ function init() {
     keyAlert = document.querySelector('#key-alert');
 
     keyInput = document.querySelector('#key');
+    if(keyInput.value != "") {
+        keyAlert.classList.add('hide');
+    }
     max_tokens = document.querySelector('#max_tokens');
     themesSelect = document.querySelector('#themesSelect');
     loader = document.querySelector('#loader');
     
     actionsSelect = document.querySelector('#actionsSelect');
+    if(actionsSelect.value === "/image") {
+        imageFilters.classList.remove('hide');
+    }
     imageFilters = document.querySelector('#imageFilters');
 
     outputElement = document.querySelector('#output');
@@ -177,6 +183,8 @@ async function getMessage() {
     console.log(option);
 
     let pageHeight;
+
+    clearInput();
     
     //if (prompt.startsWith('/image ')) {
     if (option === "/image") {
@@ -253,26 +261,33 @@ async function getMessage() {
 
         const gridContainer = document.createElement('div');
 
-        if(document.querySelector('input[name="gridSize"]:checked').value === "2x2") {
+        /*if(document.querySelector('input[name="gridSize"]:checked').value === "2x2") {
             gridContainer.classList.add('grid-container');
-        }
+        }*/
 
         let index = 0;
         
         let gptDivs = document.getElementsByClassName('gpt');
         let lastGptDiv = gptDivs[gptDivs.length - 1];
         let col11Div = lastGptDiv.querySelector('.col-11');
+        col11Div.innerHTML += '<div class="row imgGrid"></div>';
+        let imgGrid = col11Div.querySelector('.row');
 
         images.data.forEach(imageObj => {
             const imageContainer = document.createElement('div');
-            imageContainer.width=250;
-            imageContainer.height=250;
-            imageContainer.classList.add('image-container');
-
+            /*imageContainer.width=250;
+            imageContainer.height=250;*/
+            if(document.querySelector('input[name="gridSize"]:checked').value === "2x2") {
+                imageContainer.classList.add('col-6');
+            } else {
+                imageContainer.classList.add('col-12');
+            }
+            
             const imgElement = document.createElement('img');
+            imgElement.classList.add('img-fluid');
             imgElement.src = imageObj.url;
-            imgElement.width=250;
-            imgElement.height=250;
+            /*imgElement.width=250;
+            imgElement.height=250;*/
 
             imageContainer.append(imgElement);
 
@@ -281,12 +296,14 @@ async function getMessage() {
                 //getAlternativeImageFromDallE(promptSave, imgElement.src);
             });
 
-            gridContainer.append(imageContainer);
+            
+            //gridContainer.append(imageContainer);
+            imgGrid.append(imageContainer);
             
             index++;
         });
         //outputElement.append(gridContainer);
-        col11Div.append(gridContainer);
+        //col11Div.append(gridContainer);
         
         pageHeight = Math.max(
             document.body.scrollHeight,
@@ -303,7 +320,7 @@ async function getMessage() {
         getResponseFromGPT(prompt, option);
     }
     
-    clearInput();
+    //clearInput();
 }
 
 /* GPT-3.5 */

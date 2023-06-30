@@ -150,10 +150,14 @@ nav p {
     cursor:pointer;
 }
 
-.image-container {
-    border-radius: 15px;
-    overflow: hidden;
-    /*box-shadow: rgb(38, 57, 77) 0 20px 30px -10px;*/
+.imgGrid .col-6 {
+    padding: 5px!important;
+}
+
+.imgGrid .col-12 img {
+    padding: 0!important;
+    margin-left: auto!important;
+    margin-right: auto!important;
 }
 
 .option {
